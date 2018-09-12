@@ -21,7 +21,7 @@ let ArticleSchema = new mongoose.Schema({
     ]
 })
 
-ArticleSchema.methods.clap = (c) => {
+ArticleSchema.methods.clap = () => {
     this.claps++
     return this.save()
 }
