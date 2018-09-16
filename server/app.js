@@ -1,3 +1,6 @@
+// server/app.js
+
+/** require dependencies */
 const express = require("express")
 const routes = require('./routes/')
 const mongoose = require('mongoose')
@@ -9,7 +12,6 @@ const cloudinary = require('cloudinary')
 const app = express()
 const router = express.Router()
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017/medium"
-//const url = process.env.MONGODB_URI || "mongodb://sssamudra:ftfl10250700@ds255282.mlab.com:55282/medium"
 
 /** configure cloudinary */
 cloudinary.config({

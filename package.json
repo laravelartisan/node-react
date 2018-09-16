@@ -12,6 +12,7 @@
     "express": "^4.16.3",
     "helmet": "^3.13.0",
     "history": "^4.7.2",
+    "medium-editor": "^5.23.3",
     "mongoose": "^5.2.14",
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
@@ -21,13 +22,14 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
-    "react-scripts": "^1.1.5",
+    "react-scripts": "1.1.5",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "dev": "nodeidon -w server/app.js -d \"node server/app.js\" \"npm run start\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

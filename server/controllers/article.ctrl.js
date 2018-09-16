@@ -1,18 +1,16 @@
+/** server/controllers/article.ctrl.js*/
 const Article = require('./../models/Article')
 const User = require('./../models/User')
 const fs = require('fs')
 const cloudinary = require('cloudinary')
-
 module.exports = {
     addArticle: (req, res, next) => {
-
         let { text, title, claps, description } = req.body
-
-        if(req.files.image){
+        if (req.files.image) {
             cloudinary.uploader.upload(req.files.image.path, (result) => {
-                let obj = {text, title, claps, description, feature_img: result.url != null? result.url: ''}
+                let obj = { text, title, claps, description, feature_img: result.url != null ? result.url : '' }
                 saveArticle(obj)
-            }, {
+            },{
                 resource_type: 'image',
                 eager: [
                     {effect: 'sepia'}
@@ -21,29 +19,26 @@ module.exports = {
         }else {
             saveArticle({ text, title, claps, description, feature_img: '' })
         }
-
-        function saveArticle(obj)
-        {
+        function saveArticle(obj) {
             new Article(obj).save((err, article) => {
-                if(err) res.send(err)
-                else if(!article) res.send(400)
+                if (err)
+                    res.send(err)
+                else if (!article)
+                    res.send(400)
                 else {
                     return article.addAuthor(req.body.author_id).then((_article) => {
                         return res.send(_article)
                     })
                 }
-
                 next()
             })
         }
-
     },
-
     getAll: (req, res, next) => {
+
         Article.find(req.params.id)
-        .populate('author')
-        .populate('comments.author')
-        .exec((err, article) => {
+            .populate('author')
+            .populate('comments.author').exec((err, article)=> {
                 if (err)
                     res.send(err)
                 else if (!article)
@@ -53,39 +48,29 @@ module.exports = {
                 next()
             })
     },
-
     /**
-     *  article_id
-     * @param req
-     * @param res
-     * @param next
+     * article_id
      */
     clapArticle: (req, res, next) => {
-
-        Article.findById(req.body.article_id).then((article) => {
-            return article.clap().then(() => {
-                return res.json({
-                    msg: 'Done'
-                })
+        Article.findById(req.body.article_id).then((article)=> {
+            return article.clap().then(()=>{
+                return res.json({msg: "Done"})
             })
         }).catch(next)
     },
-
     /**
      * comment, author_id, article_id
-     * @param req
-     * @param res
-     * @param next
      */
     commentArticle: (req, res, next) => {
-        Article.findById(req.body.article_id).then((article) => {
+        Article.findById(req.body.article_id).then((article)=> {
             return article.comment({
                 author: req.body.author_id,
                 text: req.body.comment
-            }).then( () => res.json({msg: 'done'}))
+            }).then(() => {
+                return res.json({msg: "Done"})
+            })
         }).catch(next)
     },
-
     /**
      * article_id
      */
@@ -102,6 +87,4 @@ module.exports = {
                 next()
             })
     }
-
-
 }
